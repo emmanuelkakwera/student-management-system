@@ -124,3 +124,37 @@ class Database:
         return 0.0
 
 
+class StudentManagementApp:
+    def __init__(self, master):
+        """Initialize the GUI."""
+        self.master = master
+        self.master.title("Student Management System")
+        self.master.geometry("700x600")
+
+        # Add window close handler
+        self.master.protocol("WM_DELETE_WINDOW", self.on_close)
+
+        self.db = Database()
+        self.create_dashboard()
+
+    def on_close(self):
+        """Handle window close event."""
+        # Data is already saved automatically after each operation
+        self.master.destroy()
+
+    def create_dashboard(self):
+        """Main dashboard."""
+        self.clear_window()
+        tk.Label(self.master, text="Student Management System", font=("Arial", 16)).pack(pady=10)
+
+        tk.Button(self.master, text="Add Student", command=self.add_student_window).pack(pady=5)
+        tk.Button(self.master, text="View Students", command=self.view_students).pack(pady=5)
+
+    def add_student_window(self):
+        """Window to add a new student."""
+        self.clear_window()
+        tk.Label(self.master, text="Add New Student", font=("Arial", 16)).pack(pady=10)
+
+        # Create a frame for student details
+        student_frame = tk.Frame(self.master)
+        student_frame.pack(pady=5)
