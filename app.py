@@ -158,3 +158,40 @@ class StudentManagementApp:
         # Create a frame for student details
         student_frame = tk.Frame(self.master)
         student_frame.pack(pady=5)
+        
+           # Student details
+        tk.Label(student_frame, text="Student ID:").grid(row=0, column=0, sticky='e', padx=5, pady=5)
+        self.student_id_entry = tk.Entry(student_frame)
+        self.student_id_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        tk.Label(student_frame, text="Name:").grid(row=1, column=0, sticky='e', padx=5, pady=5)
+        self.name_entry = tk.Entry(student_frame)
+        self.name_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        tk.Label(student_frame, text="Age:").grid(row=2, column=0, sticky='e', padx=5, pady=5)
+        self.age_entry = tk.Entry(student_frame)
+        self.age_entry.grid(row=2, column=1, padx=5, pady=5)
+
+        tk.Label(student_frame, text="Course:").grid(row=3, column=0, sticky='e', padx=5, pady=5)
+        self.course_entry = tk.Entry(student_frame)
+        self.course_entry.grid(row=3, column=1, padx=5, pady=5)
+
+        tk.Label(student_frame, text="Phone:").grid(row=4, column=0, sticky='e', padx=5, pady=5)
+        self.phone_entry = tk.Entry(student_frame)
+        self.phone_entry.grid(row=4, column=1, padx=5, pady=5)
+
+        # Module addition section
+        module_frame = tk.LabelFrame(self.master, text="Add Modules", padx=10, pady=10)
+        module_frame.pack(pady=10, fill=tk.X, padx=20)
+
+        tk.Label(module_frame, text="Module Name:").grid(row=0, column=0, padx=5, pady=5)
+        self.module_entry = tk.Entry(module_frame)
+        self.module_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        tk.Label(module_frame, text="Grade:").grid(row=1, column=0, padx=5, pady=5)
+        self.grade_entry = tk.Entry(module_frame)
+        self.grade_entry.grid(row=1, column=1, padx=5, pady=5)
+        
+        # List to store temporary modules before saving student
+        self.temp_modules = []
+
