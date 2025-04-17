@@ -373,3 +373,103 @@ class StudentManagementApp:
 
         tk.Button(button_frame, text="Add Module", command=lambda: self.add_module(student_id)).pack(side=tk.LEFT, padx=5)
         tk.Button(button_frame, text="Back", command=self.view_students).pack(side=tk.LEFT, padx=5)
+        
+        def show_module_context_menu(self, event, student_id):
+        """Show context menu for modules to update grades."""
+        item = self.module_tree.identify_row(event.y)
+        if item:
+            # Select the item
+            self.module_tree.selection_set(item)
+
+            # Get module details
+            module_name = self.module_tree.item(item, "values")[0]
+            current_grade = self.module_tree.item(item, "values")[1]
+
+            # Create a popup menu
+            menu = tk.Menu(self.master, tearoff=0)
+            menu.add_command(
+                label=f"Update Grade for {module_name} (Current: {current_grade})",
+                command=lambda: self.update_module_grade(student_id, module_name)
+            )
+            menu.post(event.x_root, event.y_root)
+
+    def update_module_grade(self, student_id, module_name):
+        """Update a module's grade for a student."""
+        # Ask for new grade
+        new_grade = simpledialog.askfloat(
+            "Update Grade",
+            f"Enter new grade for {module_name}:",
+            minvalue=0,
+            maxvalue=100
+        )
+
+        if new_grade is not None:  # User didn't cancel
+            if self.db.update_module_grade(student_id, module_name, new_grade):
+                messagebox.showinfo("Success", "Grade updated successfully!")
+                self.manage_modules(student_id)  # Refresh the view
+            else:
+                messagebox.showerror("Error", "Failed to update grade")
+
+    def add_module(self, student_id):
+        """Add a module to the student's record."""
+        module_name = self.module_entry.get()
+        try:
+            grade = float(self.grade_entry.get())
+            if 0 <= grade <= 100:
+                self.db.add_module(student_id, module_name, grade)
+                messagebox.showinfo("Success", "Module added successfully!")
+                self.manage_modules(student_id)
+            else:
+                messagebox.showerror("Error", "Grade must be between 0 and 100!")
+        except ValueError:
+            messagebox.showerror("Error", "Please enter a valid numeric grade!")
+    
+    def show_module_context_menu(self, event, student_id):
+        """Show context menu for modules to update grades."""
+        item = self.module_tree.identify_row(event.y)
+        if item:
+            # Select the item
+            self.module_tree.selection_set(item)
+
+            # Get module details
+            module_name = self.module_tree.item(item, "values")[0]
+            current_grade = self.module_tree.item(item, "values")[1]
+
+            # Create a popup menu
+            menu = tk.Menu(self.master, tearoff=0)
+            menu.add_command(
+                label=f"Update Grade for {module_name} (Current: {current_grade})",
+                command=lambda: self.update_module_grade(student_id, module_name)
+            )
+            menu.post(event.x_root, event.y_root)
+
+    def update_module_grade(self, student_id, module_name):
+        """Update a module's grade for a student."""
+        # Ask for new grade
+        new_grade = simpledialog.askfloat(
+            "Update Grade",
+            f"Enter new grade for {module_name}:",
+            minvalue=0,
+            maxvalue=100
+        )
+
+        if new_grade is not None:  # User didn't cancel
+            if self.db.update_module_grade(student_id, module_name, new_grade):
+                messagebox.showinfo("Success", "Grade updated successfully!")
+                self.manage_modules(student_id)  # Refresh the view
+            else:
+                messagebox.showerror("Error", "Failed to update grade")
+
+    def add_module(self, student_id):
+        """Add a module to the student's record."""
+        module_name = self.module_entry.get()
+        try:
+            grade = float(self.grade_entry.get())
+            if 0 <= grade <= 100:
+                self.db.add_module(student_id, module_name, grade)
+                messagebox.showinfo("Success", "Module added successfully!")
+                self.manage_modules(student_id)
+            else:
+                messagebox.showerror("Error", "Grade must be between 0 and 100!")
+        except ValueError:
+            messagebox.showerror("Error", "Please enter a valid numeric grade!")
