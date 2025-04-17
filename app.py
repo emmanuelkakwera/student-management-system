@@ -194,4 +194,19 @@ class StudentManagementApp:
         
         # List to store temporary modules before saving student
         self.temp_modules = []
+        
+        # Module buttons
+        button_frame = tk.Frame(module_frame)
+        button_frame.grid(row=3, column=0, columnspan=2, pady=5)
+
+        tk.Button(button_frame, text="Add Module", command=self.add_temp_module).pack(side=tk.LEFT, padx=5)
+        tk.Button(button_frame, text="Remove Module", command=self.remove_temp_module).pack(side=tk.LEFT, padx=5)
+
+        # Main buttons
+        main_button_frame = tk.Frame(self.master)
+        main_button_frame.pack(pady=10)
+
+        tk.Button(main_button_frame, text="Save Student", command=self.add_student_with_modules).pack(side=tk.LEFT, padx=5)
+        tk.Button(main_button_frame, text="Back", command=self.create_dashboard).pack(side=tk.LEFT, padx=5)
+
 
