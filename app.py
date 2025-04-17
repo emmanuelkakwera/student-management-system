@@ -213,4 +213,43 @@ class StudentManagementApp:
         tk.Button(main_button_frame, text="Save Student", command=self.add_student_with_modules).pack(side=tk.LEFT, padx=5)
         tk.Button(main_button_frame, text="Back", command=self.create_dashboard).pack(side=tk.LEFT, padx=5)
         
+    def add_temp_module(self):
+        """Add a module to the temporary list before saving the student."""
+        module_name = self.module_entry.get()
+        grade = self.grade_entry.get()
+
+        if not module_name or not grade:
+            messagebox.showerror("Error", "Both module name and grade are required!")
+            return
+
+        try:
+            grade = float(grade)
+            if not (0 <= grade <= 100):
+                raise ValueError
+        except ValueError:
+            messagebox.showerror("Error", "Grade must be a number between 0 and 100!")
+            return
+
+        self.temp_modules.append((module_name, grade))
+        self.update_module_listbox()
+        self.module_entry.delete(0, tk.END)
+        self.grade_entry.delete(0, tk.END)
+
+    def remove_temp_module(self):
+        """Remove a module from the temporary list."""
+        try:
+            selection = self.module_listbox.curselection()
+            if selection:
+                index = selection[0]
+                self.temp_modules.pop(index)
+                self.update_module_listbox()
+        except IndexError:
+            messagebox.showerror("Error", "Please select a module to remove")
+
+    def update_module_listbox(self):
+        """Update the listbox with current modules."""
+        self.module_listbox.delete(0, tk.END)
+        for module, grade in self.temp_modules:
+            self.module_listbox.insert(tk.END, f"{module}: {grade}")
+        
 
