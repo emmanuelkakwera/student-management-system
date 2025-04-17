@@ -159,7 +159,7 @@ class StudentManagementApp:
         student_frame = tk.Frame(self.master)
         student_frame.pack(pady=5)
         
-           # Student details
+        # Student details
         tk.Label(student_frame, text="Student ID:").grid(row=0, column=0, sticky='e', padx=5, pady=5)
         self.student_id_entry = tk.Entry(student_frame)
         self.student_id_entry.grid(row=0, column=1, padx=5, pady=5)
@@ -195,6 +195,10 @@ class StudentManagementApp:
         # List to store temporary modules before saving student
         self.temp_modules = []
         
+        # Module list display
+        self.module_listbox = tk.Listbox(module_frame, height=5)
+        self.module_listbox.grid(row=2, column=0, columnspan=2, sticky='ew', padx=5, pady=5)
+        
         # Module buttons
         button_frame = tk.Frame(module_frame)
         button_frame.grid(row=3, column=0, columnspan=2, pady=5)
@@ -208,5 +212,5 @@ class StudentManagementApp:
 
         tk.Button(main_button_frame, text="Save Student", command=self.add_student_with_modules).pack(side=tk.LEFT, padx=5)
         tk.Button(main_button_frame, text="Back", command=self.create_dashboard).pack(side=tk.LEFT, padx=5)
-
+        
 
