@@ -374,7 +374,7 @@ class StudentManagementApp:
         tk.Button(button_frame, text="Add Module", command=lambda: self.add_module(student_id)).pack(side=tk.LEFT, padx=5)
         tk.Button(button_frame, text="Back", command=self.view_students).pack(side=tk.LEFT, padx=5)
         
-        def show_module_context_menu(self, event, student_id):
+    def show_module_context_menu(self, event, student_id):
         """Show context menu for modules to update grades."""
         item = self.module_tree.identify_row(event.y)
         if item:
@@ -473,3 +473,16 @@ class StudentManagementApp:
                 messagebox.showerror("Error", "Grade must be between 0 and 100!")
         except ValueError:
             messagebox.showerror("Error", "Please enter a valid numeric grade!")
+            
+            
+    def clear_window(self):
+        """Clear all widgets from the window."""
+        for widget in self.master.winfo_children():
+            widget.destroy()
+
+
+# Run Application
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = StudentManagementApp(root)
+    root.mainloop()
