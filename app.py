@@ -305,3 +305,34 @@ class StudentManagementApp:
         self.tree.pack(expand=True, fill=tk.BOTH)
 
         tk.Button(self.master, text="Back", command=self.create_dashboard).pack()        
+        
+    def show_context_menu(self, event):
+        """Show context menu on right-click with delete and update options."""
+        # Identify the item that was right-clicked
+        item = self.tree.identify_row(event.y)
+        if item:
+            # Select the item
+            self.tree.selection_set(item)
+
+            # Create a popup menu
+            menu = tk.Menu(self.master, tearoff=0)
+            menu.add_command(label="Update Modules/Grades",
+                             command=lambda: self.manage_modules(self.tree.item(item, "values")[0]))
+            menu.add_command(label="Delete Student", command=lambda: self.delete_student(self.tree, item))
+            menu.post(event.x_root, event.y_root)
+
+    def delete_student(self, tree, item):
+        """Delete the selected student."""
+        student_id = tree.item(item, "values")[0]
+        if messagebox.askyesno("Confirm Delete", f"Are you sure you want to delete student {student_id}?"):
+            if self.db.delete_student(student_id):
+                messagebox.showinfo("Success", "Student deleted successfully!")
+                self.view_students()  # Refresh the view
+            else:
+                messagebox.showerror("Error", "Failed to delete student")
+
+    def student_options(self, event):
+        """Handle double-click to manage modules."""
+        item = event.widget.selection()[0]
+        student_id = event.widget.item(item, "values")[0]
+        self.manage_modules(student_id)
