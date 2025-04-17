@@ -253,3 +253,32 @@ class StudentManagementApp:
             self.module_listbox.insert(tk.END, f"{module}: {grade}")
         
 
+    def add_student_with_modules(self):
+        """Add a student with all their modules."""
+        student_id = self.student_id_entry.get()
+        name = self.name_entry.get()
+        age = self.age_entry.get()
+        course = self.course_entry.get()
+        phone = self.phone_entry.get()
+
+        if not student_id or not name or not age or not course or not phone:
+            messagebox.showerror("Error", "All student fields are required!")
+            return
+
+        try:
+            age = int(age)
+            if age <= 0:
+                raise ValueError
+        except ValueError:
+            messagebox.showerror("Error", "Age must be a positive integer!")
+            return
+
+        if self.db.add_student(student_id, name, age, course, phone):
+            # Add all temporary modules to the database
+            for module, grade in self.temp_modules:
+                self.db.add_module(student_id, module, grade)
+
+            messagebox.showinfo("Success", "Student and modules added successfully!")
+            self.create_dashboard()
+        else:
+            messagebox.showerror("Error", "Student ID already exists!")
