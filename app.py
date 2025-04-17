@@ -336,3 +336,40 @@ class StudentManagementApp:
         item = event.widget.selection()[0]
         student_id = event.widget.item(item, "values")[0]
         self.manage_modules(student_id)
+        
+    def manage_modules(self, student_id):
+        """Module management window."""
+        self.clear_window()
+        student = self.db.students.get(student_id, ["Unknown"])
+        tk.Label(self.master, text=f"Manage Modules for {student[0]} (ID: {student_id})", font=("Arial", 16)).pack(pady=10)
+
+        # Module List
+        self.module_tree = ttk.Treeview(self.master, columns=("Module", "Grade"), show="headings")
+        self.module_tree.heading("Module", text="Module")
+        self.module_tree.heading("Grade", text="Grade")
+
+        for module in self.db.get_modules(student_id):
+            self.module_tree.insert("", "end", values=module)
+
+        self.module_tree.pack(expand=True, fill=tk.BOTH, padx=20, pady=10)
+
+        # Bind right-click on module tree
+        self.module_tree.bind("<Button-3>", lambda e: self.show_module_context_menu(e, student_id))
+
+        # Add Module
+        add_frame = tk.Frame(self.master)
+        add_frame.pack(pady=10)
+
+        tk.Label(add_frame, text="Module Name:").pack(side=tk.LEFT)
+        self.module_entry = tk.Entry(add_frame)
+        self.module_entry.pack(side=tk.LEFT, padx=5)
+
+        tk.Label(add_frame, text="Grade:").pack(side=tk.LEFT)
+        self.grade_entry = tk.Entry(add_frame)
+        self.grade_entry.pack(side=tk.LEFT, padx=5)
+
+        button_frame = tk.Frame(self.master)
+        button_frame.pack(pady=10)
+
+        tk.Button(button_frame, text="Add Module", command=lambda: self.add_module(student_id)).pack(side=tk.LEFT, padx=5)
+        tk.Button(button_frame, text="Back", command=self.view_students).pack(side=tk.LEFT, padx=5)
