@@ -282,3 +282,26 @@ class StudentManagementApp:
             self.create_dashboard()
         else:
             messagebox.showerror("Error", "Student ID already exists!")
+            
+    def view_students(self):
+        """View students and their GPA."""
+        self.clear_window()
+        tk.Label(self.master, text="Student List", font=("Arial", 16)).pack(pady=10)
+
+        self.tree = ttk.Treeview(self.master, columns=("ID", "Name", "Age", "Course", "Phone", "GPA"), show="headings")
+        for col in ("ID", "Name", "Age", "Course", "Phone", "GPA"):
+            self.tree.heading(col, text=col)
+
+        for student in self.db.get_students():
+            GPA = self.db.calculate_GPA(student[0])
+            self.tree.insert("", "end", values=(student[0], student[1], student[2], student[3], student[4],GPA))
+
+        # Bind double-click for module management
+        self.tree.bind("<Double-1>", self.student_options)
+
+        # Bind right-click for context menu
+        self.tree.bind("<Button-3>", self.show_context_menu)
+
+        self.tree.pack(expand=True, fill=tk.BOTH)
+
+        tk.Button(self.master, text="Back", command=self.create_dashboard).pack()        
