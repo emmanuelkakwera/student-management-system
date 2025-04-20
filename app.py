@@ -336,6 +336,24 @@ class StudentManagementApp:
                              command=lambda: self.manage_modules(self.tree.item(item, "values")[0]))
             menu.add_command(label="Delete Student", command=lambda: self.delete_student(self.tree, item))
             menu.post(event.x_root, event.y_root)
+            
+    def apply_course_filter(self):
+        """Apply the selected course filter to the student list."""
+        selected_course = self.course_filter_var.get()
+
+        # Clear existing items
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+
+        # Add filtered students
+        for student in self.db.get_students():
+            student_id, name, age, course, phone = student[:5]
+
+            # Show all or matching courses (case-insensitive)
+            if selected_course == "All" or course.lower() == selected_course.lower():
+                gpa = self.db.calculate_gpa(student_id)
+                self.tree.insert("", "end", values=(student_id, name, age, course, phone, gpa))
+
 
     def delete_student(self, tree, item):
         """Delete the selected student."""
