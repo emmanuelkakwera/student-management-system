@@ -116,12 +116,25 @@ class Database:
                     return True
         return False
 
-    def calculate_GPA(self, student_id):
-        """Calculate the GPA for a student."""
+    def calculate_gpa(self, student_id):
+        """Calculate actual GPA on 4.0 scale."""
         grades = [grade for _, grade in self.modules.get(student_id, [])]
-        if grades:
-            return round(sum(grades) / len(grades), 2)
-        return 0.0
+        if not grades:
+            return 0.0
+
+        total_points = 0
+        for grade in grades:
+            if grade >= 90:
+                total_points += 4.0
+            elif grade >= 80:
+                total_points += 3.0
+            elif grade >= 70:
+                total_points += 2.0
+            elif grade >= 60:
+                total_points += 1.0
+            # Below 60 = 0.0
+
+        return round(total_points / len(grades), 2)
 
 
 class StudentManagementApp:
