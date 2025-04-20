@@ -274,14 +274,10 @@ class StudentManagementApp:
         course = self.course_entry.get()
         phone = self.phone_entry.get()
 
-        if not (phone.startswith('0')and len(phone)==10 and phone.isdigit()):
-            messagebox.showerror("Error", "Malawi phone must be 10 digits starting with 0")
-            return
         if not student_id or not name or not age or not course or not phone:
-             messagebox.showerror("Error", "All student fields are required!")
-             return
-            
-        
+            messagebox.showerror("Error", "All student fields are required!")
+            return
+
         try:
             age = int(age)
             if age <= 0:
