@@ -300,27 +300,67 @@ class StudentManagementApp:
             messagebox.showerror("Error", "Student ID already exists!")
             
     def view_students(self):
-        """View students and their GPA."""
+        """View students with filtering options."""
         self.clear_window()
         tk.Label(self.master, text="Student List", font=("Arial", 16)).pack(pady=10)
 
+        # ===== FILTER CONTROLS =====
+        filter_frame = tk.Frame(self.master, bg='#f0f0f0')
+        filter_frame.pack(fill=tk.X, padx=20, pady=10)
+
+        tk.Label(filter_frame, text="Filter by Course:", bg='#f0f0f0').pack(side=tk.LEFT, padx=5)
+
+        # Get all unique courses from students
+        courses = set()
+        for student in self.db.get_students():
+            courses.add(student[3])  # course is at index 3
+        courses = sorted(list(courses))  # Convert to sorted list
+        courses.insert(0, "All")  # Add "All" option at beginning
+
+        self.course_filter_var = tk.StringVar(value="All")  # Default value
+
+        # Create the dropdown (Combobox)
+        course_dropdown = ttk.Combobox(
+            filter_frame,
+            textvariable=self.course_filter_var,
+            values=courses,
+            state="readonly",  # Prevent typing
+            width=25
+        )
+        course_dropdown.pack(side=tk.LEFT, padx=5)
+
+        # Filter button
+        filter_btn = tk.Button(
+            filter_frame,
+            text="Apply Filter",
+            command=self.apply_course_filter,
+            bg="#4CAF50",
+            fg="white"
+        )
+        filter_btn.pack(side=tk.LEFT, padx=5)
+        # ===== END FILTER CONTROLS =====
+
+        # Create the student table
         self.tree = ttk.Treeview(self.master, columns=("ID", "Name", "Age", "Course", "Phone", "GPA"), show="headings")
         for col in ("ID", "Name", "Age", "Course", "Phone", "GPA"):
             self.tree.heading(col, text=col)
 
-        for student in self.db.get_students():
-            GPA = self.db.calculate_GPA(student[0])
-            self.tree.insert("", "end", values=(student[0], student[1], student[2], student[3], student[4],GPA))
+        # Apply initial filter (show all)
+        self.apply_course_filter()
 
-        # Bind double-click for module management
+        # Add bindings
         self.tree.bind("<Double-1>", self.student_options)
-
-        # Bind right-click for context menu
         self.tree.bind("<Button-3>", self.show_context_menu)
+        self.tree.pack(expand=True, fill=tk.BOTH, padx=20, pady=10)
 
-        self.tree.pack(expand=True, fill=tk.BOTH)
-
-        tk.Button(self.master, text="Back", command=self.create_dashboard).pack()        
+        # Back button
+        tk.Button(
+            self.master,
+            text="Back",
+            command=self.create_dashboard,
+            bg="#FF8C00",
+            fg="white"
+        ).pack(pady=10)
         
     def show_context_menu(self, event):
         """Show context menu on right-click with delete and update options."""
