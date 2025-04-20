@@ -216,9 +216,8 @@ class StudentManagementApp:
         button_frame = tk.Frame(module_frame)
         button_frame.grid(row=3, column=0, columnspan=2, pady=5)
 
-        tk.Button(button_frame, text="Add Module", command=self.add_temp_module).pack(side=tk.LEFT, padx=5)
-        tk.Button(button_frame, text="Remove Module", command=self.remove_temp_module).pack(side=tk.LEFT, padx=5)
-
+        tk.Button(button_frame, text="Add Module", command=self.add_temp_module, bg='#4CAF50',fg='white',activebackground='#45a049',activeforeground='white' ).pack(side=tk.LEFT, padx=5)
+        tk.Button(button_frame, text="Remove Module", command=self.remove_temp_module,bg="#FF8C00",fg="white",  activebackground="#E67300",activeforeground="white",padx=10,pady=5).pack(side=tk.LEFT, padx=5)
         # Main buttons
         main_button_frame = tk.Frame(self.master)
         main_button_frame.pack(pady=10)
