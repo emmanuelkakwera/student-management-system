@@ -141,6 +141,7 @@ class StudentManagementApp:
     def __init__(self, master):
         """Initialize the GUI."""
         self.master = master
+        self.master.configure(bg='#4CAF50')
         self.master.title("Student Management System")
         self.master.geometry("700x600")
 
@@ -158,10 +159,11 @@ class StudentManagementApp:
     def create_dashboard(self):
         """Main dashboard."""
         self.clear_window()
-        tk.Label(self.master, text="Student Management System", font=("Arial", 16)).pack(pady=10)
+        tk.Label(self.master, text="STUDENT MANAGEMENT SYSTEM", font=("Arial", 16)).pack(pady=10)
 
         tk.Button(self.master, text="Add Student", command=self.add_student_window).pack(pady=5)
         tk.Button(self.master, text="View Students", command=self.view_students).pack(pady=5)
+
 
     def add_student_window(self):
         """Window to add a new student."""
@@ -171,7 +173,7 @@ class StudentManagementApp:
         # Create a frame for student details
         student_frame = tk.Frame(self.master)
         student_frame.pack(pady=5)
-        
+
         # Student details
         tk.Label(student_frame, text="Student ID:").grid(row=0, column=0, sticky='e', padx=5, pady=5)
         self.student_id_entry = tk.Entry(student_frame)
@@ -204,27 +206,28 @@ class StudentManagementApp:
         tk.Label(module_frame, text="Grade:").grid(row=1, column=0, padx=5, pady=5)
         self.grade_entry = tk.Entry(module_frame)
         self.grade_entry.grid(row=1, column=1, padx=5, pady=5)
-        
+
         # List to store temporary modules before saving student
         self.temp_modules = []
-        
+
         # Module list display
-        self.module_listbox = tk.Listbox(module_frame, height=5)
+        self.module_listbox = tk.Listbox(module_frame, height=5, bg='#f0f0f0',fg='#333333' , selectbackground='#4CAF50', selectforeground='white')
         self.module_listbox.grid(row=2, column=0, columnspan=2, sticky='ew', padx=5, pady=5)
-        
+
         # Module buttons
-        button_frame = tk.Frame(module_frame)
+        button_frame = tk.Frame(module_frame,bg='#e0e0e0')
         button_frame.grid(row=3, column=0, columnspan=2, pady=5)
 
         tk.Button(button_frame, text="Add Module", command=self.add_temp_module, bg='#4CAF50',fg='white',activebackground='#45a049',activeforeground='white' ).pack(side=tk.LEFT, padx=5)
         tk.Button(button_frame, text="Remove Module", command=self.remove_temp_module,bg="#FF8C00",fg="white",  activebackground="#E67300",activeforeground="white",padx=10,pady=5).pack(side=tk.LEFT, padx=5)
+
         # Main buttons
-        main_button_frame = tk.Frame(self.master)
+        main_button_frame = tk.Frame(self.master , bg='#e0e0e0')
         main_button_frame.pack(pady=10)
 
-        tk.Button(main_button_frame, text="Save Student", command=self.add_student_with_modules).pack(side=tk.LEFT, padx=5)
-        tk.Button(main_button_frame, text="Back", command=self.create_dashboard).pack(side=tk.LEFT, padx=5)
-        
+        tk.Button(main_button_frame, text="Save Student", command=self.add_student_with_modules, bg='#2196F3',fg='white',activebackground='#0b7dda' ).pack(side=tk.LEFT, padx=5)
+        tk.Button(main_button_frame, text="Back", command=self.create_dashboard,bg='#607d8b', fg='white',activebackground='#455a64').pack(side=tk.LEFT, padx=5)
+
     def add_temp_module(self):
         """Add a module to the temporary list before saving the student."""
         module_name = self.module_entry.get()
@@ -263,7 +266,6 @@ class StudentManagementApp:
         self.module_listbox.delete(0, tk.END)
         for module, grade in self.temp_modules:
             self.module_listbox.insert(tk.END, f"{module}: {grade}")
-        
 
     def add_student_with_modules(self):
         """Add a student with all their modules."""
@@ -276,6 +278,7 @@ class StudentManagementApp:
         if not (phone.startswith('0') and len(phone) == 10 and phone.isdigit()):
             messagebox.showerror("Error", "Malawi phone must be 10 digits starting with 0")
             return
+
         if not student_id or not name or not age or not course or not phone:
             messagebox.showerror("Error", "All student fields are required!")
             return
@@ -297,7 +300,7 @@ class StudentManagementApp:
             self.create_dashboard()
         else:
             messagebox.showerror("Error", "Student ID already exists!")
-            
+
     def view_students(self):
         """View students with filtering options."""
         self.clear_window()
@@ -337,7 +340,7 @@ class StudentManagementApp:
             fg="white"
         )
         filter_btn.pack(side=tk.LEFT, padx=5)
-        # ===== END FILTER CONTROLS =====
+        # ================= END FILTER CONTROLS ================
 
         # Create the student table
         self.tree = ttk.Treeview(self.master, columns=("ID", "Name", "Age", "Course", "Phone", "GPA"), show="headings")
@@ -360,7 +363,7 @@ class StudentManagementApp:
             bg="#FF8C00",
             fg="white"
         ).pack(pady=10)
-        
+
     def show_context_menu(self, event):
         """Show context menu on right-click with delete and update options."""
         # Identify the item that was right-clicked
@@ -375,7 +378,7 @@ class StudentManagementApp:
                              command=lambda: self.manage_modules(self.tree.item(item, "values")[0]))
             menu.add_command(label="Delete Student", command=lambda: self.delete_student(self.tree, item))
             menu.post(event.x_root, event.y_root)
-            
+
     def apply_course_filter(self):
         """Apply the selected course filter to the student list."""
         selected_course = self.course_filter_var.get()
@@ -393,7 +396,6 @@ class StudentManagementApp:
                 gpa = self.db.calculate_gpa(student_id)
                 self.tree.insert("", "end", values=(student_id, name, age, course, phone, gpa))
 
-
     def delete_student(self, tree, item):
         """Delete the selected student."""
         student_id = tree.item(item, "values")[0]
@@ -409,7 +411,7 @@ class StudentManagementApp:
         item = event.widget.selection()[0]
         student_id = event.widget.item(item, "values")[0]
         self.manage_modules(student_id)
-        
+
     def manage_modules(self, student_id):
         """Module management window."""
         self.clear_window()
@@ -444,9 +446,9 @@ class StudentManagementApp:
         button_frame = tk.Frame(self.master)
         button_frame.pack(pady=10)
 
-        tk.Button(button_frame, text="Add Module", command=lambda: self.add_module(student_id)).pack(side=tk.LEFT, padx=5)
+        tk.Button(button_frame, text="Add Module", command=lambda: self.add_module(student_id) ).pack(side=tk.LEFT, padx=5)
         tk.Button(button_frame, text="Back", command=self.view_students).pack(side=tk.LEFT, padx=5)
-        
+
     def show_module_context_menu(self, event, student_id):
         """Show context menu for modules to update grades."""
         item = self.module_tree.identify_row(event.y)
@@ -496,58 +498,7 @@ class StudentManagementApp:
                 messagebox.showerror("Error", "Grade must be between 0 and 100!")
         except ValueError:
             messagebox.showerror("Error", "Please enter a valid numeric grade!")
-    
-    def show_module_context_menu(self, event, student_id):
-        """Show context menu for modules to update grades."""
-        item = self.module_tree.identify_row(event.y)
-        if item:
-            # Select the item
-            self.module_tree.selection_set(item)
 
-            # Get module details
-            module_name = self.module_tree.item(item, "values")[0]
-            current_grade = self.module_tree.item(item, "values")[1]
-
-            # Create a popup menu
-            menu = tk.Menu(self.master, tearoff=0)
-            menu.add_command(
-                label=f"Update Grade for {module_name} (Current: {current_grade})",
-                command=lambda: self.update_module_grade(student_id, module_name)
-            )
-            menu.post(event.x_root, event.y_root)
-
-    def update_module_grade(self, student_id, module_name):
-        """Update a module's grade for a student."""
-        # Ask for new grade
-        new_grade = simpledialog.askfloat(
-            "Update Grade",
-            f"Enter new grade for {module_name}:",
-            minvalue=0,
-            maxvalue=100
-        )
-
-        if new_grade is not None:  # User didn't cancel
-            if self.db.update_module_grade(student_id, module_name, new_grade):
-                messagebox.showinfo("Success", "Grade updated successfully!")
-                self.manage_modules(student_id)  # Refresh the view
-            else:
-                messagebox.showerror("Error", "Failed to update grade")
-
-    def add_module(self, student_id):
-        """Add a module to the student's record."""
-        module_name = self.module_entry.get()
-        try:
-            grade = float(self.grade_entry.get())
-            if 0 <= grade <= 100:
-                self.db.add_module(student_id, module_name, grade)
-                messagebox.showinfo("Success", "Module added successfully!")
-                self.manage_modules(student_id)
-            else:
-                messagebox.showerror("Error", "Grade must be between 0 and 100!")
-        except ValueError:
-            messagebox.showerror("Error", "Please enter a valid numeric grade!")
-            
-            
     def clear_window(self):
         """Clear all widgets from the window."""
         for widget in self.master.winfo_children():
