@@ -96,7 +96,7 @@ For a full breakdown of modules, functions, GUI layout, data flow, and error han
 
 **Manzy (Emmanuel Kakwera)**  
 📍 DMI University, Mangochi Campus  
-📧 [Your Email] (optional)
+📧 emmanuelkakwera4@gmail.com
 
 ---
 
