@@ -5,6 +5,7 @@ import os
 
 
 class Database:
+    
     def __init__(self, students_file="students.csv", modules_file="modules.csv"):
         """Initialize student and module storage with CSV files."""
         self.students_file = students_file
@@ -159,11 +160,12 @@ class StudentManagementApp:
     def create_dashboard(self):
         """Main dashboard."""
         self.clear_window()
-        tk.Label(self.master, text="STUDENT MANAGEMENT SYSTEM", font=("Arial", 16)).pack(pady=10)
+        tk.Label(self.master, text="STUDENT MANAGEMENT SYSTEM",font=("Arial", 32, "bold"),bg='#4CAF50',fg='white').pack(pady=10)
 
-        tk.Button(self.master, text="Add Student", command=self.add_student_window).pack(pady=5)
-        tk.Button(self.master, text="View Students", command=self.view_students).pack(pady=5)
 
+        tk.Button(self.master, text="Add Student", command=self.add_student_window,bg='grey',font=('bold',10),width=10 , height=2).pack(pady=6)
+        tk.Button(self.master, text="View Students", command=self.view_students,bg='orange',font=('bold', 10), width=10 , height=2).pack(pady=6)
+        tk.Button(self.master, text="Exit",command=self.on_close,bg='#DC3545',font=('bold', 10), width=8 , height=2 ).pack(pady=6)
 
     def add_student_window(self):
         """Window to add a new student."""
