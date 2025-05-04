@@ -94,8 +94,8 @@ For a full breakdown of modules, functions, GUI layout, data flow, and error han
 
 ## 🧑‍💻 Author
 
-**Manzy (Emmanuel Kakwera)**  
-📍 DMI University, Mangochi Campus  
+** Emmanuel noel Kakwera **  
+📍 DMI st Johns The Baptist University, Mangochi Campus  
 📧 emmanuelkakwera4@gmail.com
 
 ---
