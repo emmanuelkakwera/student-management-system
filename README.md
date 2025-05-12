@@ -1,5 +1,5 @@
 
-# 🧑‍🎓 Student Management System (Python + Tkinter + CSV)
+#  Student Management System (Python + Tkinter + CSV)
 
 This is a **Student Management System** built with Python's Tkinter for the GUI and CSV for persistent data storage. It allows full **CRUD operations**, GPA calculation, and module/grade tracking per student.
 
@@ -18,7 +18,7 @@ Student-Management-System/
 
 ---
 
-## 🚀 Features
+##    Features
 
 ✅ Add, View, Update, and Delete Student Records  
 ✅ Add multiple Modules and Grades per student  
@@ -29,7 +29,7 @@ Student-Management-System/
 
 ---
 
-## 🛠️ Technologies Used
+##   Technologies Used
 
 - **Python 3.x**
 - **Tkinter** (Standard Python GUI library)
@@ -37,7 +37,7 @@ Student-Management-System/
 
 ---
 
-## 📦 Requirements
+##   Requirements
 
 Make sure you have:
 
@@ -63,7 +63,7 @@ python main.py
 
 ---
 
-## 📊 GPA Calculation Logic
+##    GPA Calculation Logic
 
 | Marks Range | Grade Point |
 |-------------|-------------|
@@ -76,7 +76,7 @@ python main.py
 
 ---
 
-## 🧪 Sample Use Case
+##   Sample Use Case
 
 1. Launch the app via `main.py`.
 2. Add a new student with ID, name, phone, and course.
@@ -92,10 +92,10 @@ For a full breakdown of modules, functions, GUI layout, data flow, and error han
 
 ---
 
-## 🧑‍💻 Author
+##  Author
 
-**Manzy (Emmanuel Kakwera)**  
-📍 DMI University, Mangochi Campus  
+   Emmanuel noel Kakwera  
+📍DMI st Johns The Baptist University, Mangochi Campus  
 📧 emmanuelkakwera4@gmail.com
 
 ---
